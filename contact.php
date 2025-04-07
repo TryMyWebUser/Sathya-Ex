@@ -2,6 +2,33 @@
 include("header.php");
 ?>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/css/intlTelInput.css" />
+
+<style>
+    /* Phone input specific styles */
+    .iti {
+        width: 100%;
+        display: block;
+    }
+
+    .iti__selected-flag {
+        padding: 0 10px;
+    }
+
+    .iti--allow-dropdown .iti__flag-container,
+    .iti--separate-dial-code .iti__flag-container {
+        width: auto;
+    }
+
+    #phone {
+        padding-left: 90px !important;
+        width: 100% !important;
+    }
+
+    .iti__selected-dial-code {
+        font-size: 14px;
+    }
+</style>
 
 <!-- main-area -->
 <main class="main-area fix">
@@ -13,7 +40,7 @@ $result = $conn->query($query);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $id = $row['id'];
-    $aimage1 = '../sathyadb/pics/' . $row['image'];
+    $aimage1 = 'sathyadb/pics/' . $row['image'];
     echo '<div class="breadcrumb__area breadcrumb__bg" data-background="'.$aimage1.'">
         </div>';
     } else {
@@ -36,15 +63,23 @@ if ($result->num_rows > 0) {
                                                     $heading1 = $row['heading1'];
                                                     $heading2= $row['heading2'];
                                                     $heading3 =  $row['heading3'];
-                                                    $aimage1 = '../sathyadb/cimages/' . $row['img1'];
-                                                    $aimage2 = '../sathyadb/cimages/' . $row['img2'];
-                                                    $aimage3 = '../sathyadb/cimages/' . $row['img3'];
+                                                    if (!empty($row['img1'])) {
+                                                        $aimage1 = 'sathyadb/cimages/' . $row['img1'];
+                                                    } else { $aimage1 = ""; }
+                                                    if (!empty($row['img2'])) {
+                                                        $aimage2 = 'sathyadb/cimages/' . $row['img2'];
+                                                    } else { $aimage2 = ""; }
+                                                    if (!empty($row['img3'])) {
+                                                        $aimage3 = 'sathyadb/cimages/' . $row['img3'];
+                                                    } else { $aimage3 = ""; }
                                                  
                                                     ?>
                         <div class="contact__info-item">
+                            <?php if (!empty($row['img1'])) { ?>
                             <div class="contact__info-thumb">
-                                <img src="<?php echo $aimage1?>" alt="img">
+                                <img src="<?php echo $aimage1?>" style="height: unset;" alt="img">
                             </div>
+                            <?php } ?>
                             <div class="contact__info-content">
                                 <div class="icon">
                                     <i class="renova-map"></i>
@@ -56,9 +91,11 @@ if ($result->num_rows > 0) {
                             </div>
                         </div>
                         <div class="contact__info-item">
+                            <?php if (!empty($row['img2'])) { ?>
                             <div class="contact__info-thumb">
                                 <img src="<?php echo $aimage2?>" alt="img">
                             </div>
+                            <?php } ?>
                             <div class="contact__info-content">
                                 <div class="icon">
                                     <i class="renova-map"></i>
@@ -70,9 +107,11 @@ if ($result->num_rows > 0) {
                             </div>
                         </div>
                         <div class="contact__info-item">
+                            <?php if (!empty($row['img3'])) { ?>
                             <div class="contact__info-thumb">
                                 <img src="<?php echo $aimage3?>" alt="img">
                             </div>
+                            <?php } ?>
                             <div class="contact__info-content">
                                 <div class="icon">
                                     <i class="renova-map"></i>
@@ -100,26 +139,32 @@ if ($result->num_rows > 0) {
                     <div class="contact__form-wrap">
                         <div class="section__title section__title-three mb-40">
                             <span class="sub-title">Get In Touch</span>
-                            <h2 class="title">Needs Help? Let’s Get in Touch</h2>
+                            <!-- <h2 class="title">Needs Help? Let’s Get in Touch</h2> -->
                         </div>
                         <form action="contactmail.php" method="post" class="contact__form">
                             <div class="row gutter-20">
                                 <div class="col-md-6">
                                     <div class="form-grp">
-                                        <input type="text" name="name" placeholder="Your Name">
+                                        <input type="text" name="name" placeholder="Name*" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-grp">
-                                        <input type="email" name="email" placeholder="Email Address">
+                                        <input type="text" name="org" placeholder="Name of Organization*" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-grp">
-                                <input type="text" name="subject" placeholder="Your Subject">
+                                <input type="text" name="des" placeholder="Designation*" required>
                             </div>
                             <div class="form-grp">
-                                <textarea name="message" placeholder="Type Your Message"></textarea>
+                                <input type="email" name="email" placeholder="Email Address*" required>
+                            </div>
+                            <div class="form-grp">
+                                <input type="tel" id="phone" name="phone" placeholder="Your Phone*" required>
+                            </div>
+                            <div class="form-grp">
+                                <textarea name="message" rows="4" placeholder="Type Your Message"></textarea>
                             </div>
                             <button type="submit" class="btn btn-two">Send Message</button>
                             <p class="ajax-response mb-0"></p>
@@ -133,6 +178,22 @@ if ($result->num_rows > 0) {
 
 </main>
 <!-- main-area-end -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/intlTelInput.min.js"></script>
+<script>
+    const input = document.querySelector("#phone");
+    window.intlTelInput(input, {
+        separateDialCode: true,
+        initialCountry: "auto",
+        geoIpLookup: function (success, failure) {
+            fetch("https://ipinfo.io?token=fa3c9e544ceaa1", { headers: { Accept: "application/json" } })
+                .then((response) => response.json())
+                .then((data) => success(data.country))
+                .catch(() => success("us"));
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js",
+    });
+</script>
 
 <?php
 include("footer.php");

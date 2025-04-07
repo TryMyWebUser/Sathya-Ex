@@ -11,7 +11,7 @@ $result = $conn->query($query);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $id = $row['id'];
-    $aimage1 = '../sathyadb/pics/' . $row['image'];
+    $aimage1 = 'sathyadb/pics/' . $row['image'];
     echo '<div class="breadcrumb__area breadcrumb__bg" data-background=" '.$aimage1.'">';
     } else {
         echo "No data found in the aboutbanner table.";

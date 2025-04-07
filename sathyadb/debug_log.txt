@@ -1,0 +1,30 @@
+Array
+(
+    [products] => Array
+        (
+            [0] => ANTI-CORROSIVE COATING SOLUTIONS FOR STEEL 
+            [1] =>  COMPREHENSIVE WATERPROOFING SOLUTIONS
+        )
+
+    [name] => Saran
+    [organization] => org
+    [designation] => org
+    [email] => saranmass685@gmail.com
+    [phone] => 6767676767
+    [message] => ssddfsdfsdfsdf
+)
+Array
+(
+    [products] => Array
+        (
+            [0] => ANTI-CORROSIVE COATING SOLUTIONS FOR STEEL 
+            [1] =>  COMPREHENSIVE WATERPROOFING SOLUTIONS
+        )
+
+    [name] => Saran
+    [org] => org
+    [des] => org
+    [email] => saranmass685@gmail.com
+    [phone] => 4545454545
+    [message] => sdasdasdasdasd
+)

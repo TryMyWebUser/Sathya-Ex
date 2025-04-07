@@ -15,7 +15,7 @@ $result = $conn->query($query);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $id = $row['id'];
-    $aimage1 = '../sathyadb/pics/' . $row['image'];
+    $aimage1 = 'sathyadb/pics/' . $row['image'];
     echo '<div class="breadcrumb__area breadcrumb__bg" data-background="'.$aimage1.'">
         </div>';
     } else {
@@ -38,9 +38,9 @@ if ($result->num_rows > 0) {
                     if ($categoryResult->num_rows > 0) {
                         while ($row = $categoryResult->fetch_assoc()) {
                 ?>
-                        <span class="sub-title"><?php echo $row['heading1']?></span>
-                        <h2 class="title"><?php echo $row['heading2']?></h2>
-                        <p><?php echo $row['heading3']?></p>
+                        <span class="title"><?php echo $row['heading1']?></span>
+                        <h2 class="sub-title" style="font-size: 20px;"><?php echo $row['heading2']?></h2>
+                        <p class="sub-title" style="font-size: 25px;"><?php echo $row['heading3']?></p>
                         <?php
                         }}
                         ?>

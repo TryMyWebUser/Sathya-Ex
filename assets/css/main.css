@@ -1292,7 +1292,7 @@ textarea {
 
 .section__title-three .sub-title {
   display: block;
-  font-size: 16px;
+  font-size: 25px;
   text-transform: uppercase;
   font-weight: 600;
   color: #25625a;
@@ -3207,7 +3207,7 @@ textarea {
 .slider__bg-two {
   background-size: cover;
   background-position: center;
-  min-height: 900px;
+  /* min-height: 900px; */
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;

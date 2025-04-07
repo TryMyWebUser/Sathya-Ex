@@ -5,7 +5,7 @@
   <main class="main-area fix">
       <!-- slider-area -->
       <section class="slider__area-two">
-          <div class="swiper slider-active-two" style="height:500px;">
+          <div class="swiper slider-active-two">
               <div class="swiper-wrapper">
                   <?php
             include("config.php");
@@ -14,7 +14,7 @@
 
             if(mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_assoc($result);
-                $image = "../sathyadb/banner/" . $row['image'];
+                $image = "sathyadb/banner/" . $row['image'];
                 $heading1 = $row['heading1'];
                 $heading2 = $row['heading2'];
             }
@@ -54,11 +54,11 @@
                                                          if ($result) {
                                                 while ($row = $result->fetch_assoc()) {
                                                     $heading = $row['heading'];
-                                                    $exp =  $row['experience'];
+                                                    $exp = explode('+', $row['experience']);
                                                     $description = $row['description'];
-                                                    $aimage1 = '../sathyadb/about_images/' . $row['img1'];
-                                                    $aimage2 = '../sathyadb/about_images/' . $row['img2'];
-                                                    $aimage3 = '../sathyadb/about_images/' . $row['img3'];
+                                                    $aimage1 = 'sathyadb/about_images/' . $row['img1'];
+                                                    $aimage2 = 'sathyadb/about_images/' . $row['img2'];
+                                                    $aimage3 = 'sathyadb/about_images/' . $row['img3'];
                                                  
                                                     ?>
               <div class="row gutter-24 align-items-center justify-content-center">
@@ -70,20 +70,39 @@
                               data-wow-duration="1.5s" data-wow-delay="0.4s">
                           <img src="<?php echo $aimage3 ?>" alt="img" class="wow img-custom-anim-top animated"
                               data-wow-duration="1.5s" data-wow-delay="0.6s">
-                          <div class="experience__box-two wow img-custom-anim-top animated" data-wow-duration="1.5s"
-                              data-wow-delay="0.8s">
-                              <div class="experience__box">
-                                  <p style="font-size:20px; font-weight:bold;"><?php echo $exp ?></p>
-                              </div>
-                          </div>
-
+                        <div class="experience__box-two wow img-custom-anim-top animated" data-wow-duration="1.5s" data-wow-delay="0.8s">
+                            <div class="experience__box">
+                                <p style="font-size:20px; font-weight:bold; display: flex;align-items: center;">
+                                    <span class="counter" style="color: unset;" data-target="<?= $exp[0] ?>">0</span>+<?= $exp[1] ?>
+                                </p>
+                            </div>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const counters = document.querySelectorAll(".counter");
+                                counters.forEach((counter) => {
+                                    counter.innerText = "0";
+                                    const updateCounter = () => {
+                                        const target = +counter.getAttribute("data-target");
+                                        const count = +counter.innerText;
+                                        const increment = target / 200;
+                                        if (count < target) {
+                                            counter.innerText = `${Math.ceil(count + increment)}`;
+                                            setTimeout(updateCounter, 100);
+                                        } else {
+                                            counter.innerText = target;
+                                        }
+                                    };
+                                    updateCounter();
+                                });
+                            });
+                        </script>
                       </div>
                   </div>
 
                   <div class="col-lg-6">
                       <div class="about__content-five">
                           <div class="section__title section__title-three mb-30">
-                              <span class="sub-title">About Our Company</span>
                               <h2 class="title"><?php echo $heading ?></h2>
                               <p><?php echo $description ?></p>
                               <?php
@@ -92,15 +111,15 @@
                                             ?>
                               <ul class="list-wrap banner__list-box">
                                   <?php
-    include("config.php");
-    $result = $conn->query("SELECT * FROM list");
-    if ($result) {
-        while ($row = $result->fetch_assoc()) {
-            $heading = $row['name'];
-            echo '<li><i class="fas fa-check"></i>'.$heading.'</li>';
-        }
-    }
-?>
+                                        include("config.php");
+                                        $result = $conn->query("SELECT * FROM list");
+                                        if ($result) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                $heading = $row['name'];
+                                                echo '<li><i class="fas fa-check"></i>'.$heading.'</li>';
+                                            }
+                                        }
+                                    ?>
                               </ul>
                               <div class="about__content-bottom about__content-bottom-two">
                                   <a href="about.php" class="btn btn-two">More About Us<img
@@ -142,7 +161,7 @@
                             $result = $conn->query("SELECT * FROM feature");
                             if ($result) {
                                 while ($row = $result->fetch_assoc()) {
-                                    $image = '../sathyadb/feature/' . $row['image'];
+                                    $image = 'sathyadb/feature/' . $row['image'];
                                     echo ' <img src="'.$image.'" alt="img">';
                                 }
                             }
@@ -202,7 +221,7 @@
                             if ($result) {
                                 while ($row = $result->fetch_assoc()) {
                                     $title = $row['name'];
-                                    $image = '../sathyadb/product_category/' . $row['image'];
+                                    $image = 'sathyadb/product_category/' . $row['image'];
                                 ?>
                           <div class="swiper-slide">
                               <div class="history__item">
@@ -248,7 +267,7 @@
                             if ($result) {
                                 while ($row = $result->fetch_assoc()) {
                                     $title = $row['name'];
-                                    $image = '../sathyadb/turnkey_category/' . $row['image'];
+                                    $image = 'sathyadb/turnkey_category/' . $row['image'];
                                 ?>
                           <div class="swiper-slide">
                               <div class="history__item">
