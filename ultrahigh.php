@@ -1,0 +1,61 @@
+<?php
+include("header.php");
+?>
+
+
+
+    <!-- main-area -->
+    <main class="main-area fix">
+
+        <!-- breadcrumb-area -->
+        <div class="breadcrumb__area breadcrumb__bg" data-background="assets/img/bg/breadcrumb_bg.jpg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcrumb__content">
+                            <h2 class="title">UHPL – ULTRA HIGH-PERFORMANCE LINING SYSTEMS</h2>
+                            <nav class="breadcrumb">
+                                <span property="itemListElement" typeof="ListItem">
+                                    <a href="index.php">Home</a>
+                                </span>
+                                <span class="breadcrumb-separator">/</span>
+                                <span property="itemListElement" typeof="ListItem">UHPL – ULTRA HIGH-PERFORMANCE LINING SYSTEMS</span>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- breadcrumb-area-end -->
+
+        <!-- blog-details-area -->
+        <section class="blog__details-area section-py-120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="blog__details-content">
+                          <h2 class="title">SATHYA-EPM UC 100</h2>
+                            <p>UNIQUELY MODIFIED TAILOR-MADE ENGINEERED POLYMER WITH VINYL ESTER CHEMISTRY. IDEALLY RECOMMENDED FOR APPLICATION IN CONCRETE & STEEL REQUIRING EXTENSIVE CHEMICAL RESISTANCE FROM ORGANIC & INORGANIC ACIDS, CAUSTIC LYE, HYDROCARBONS, SOLVENTS ETC.. RECOMMENDED FOR PH RANGING FROM 0-14 WITH OPERATIONAL TEMPERATURE LESS THAN 40 DEG C. </p>
+                            <h2 class="title">SATHYA-EPM UC 100 GF</h2>
+                            <p>GLASS FLAKES FILLED VERSION OF EPM-UC 100 FOR ENHANCED ABRASION RESISTANCE. THIS COATING SYSTEM WAS ENGINEERED TO MINIMIZE WATER VAPOR TRANSMISSION RATES BY EMPLOYING A PROPRIETARY MIXTURE OF HIGH ASPECT RATIO, CHEMICALLY RESISTANT FLAKE GLASS. THIS PLATELET FILLER BLOCKS MICROSCOPIC PORES, SIGNIFICANTLY INCREASING THE COATINGS RESISTANCE TO COLD WALL, DISTILLED WATER, SOLVENTS, AS WELL AS STRONG ACIDS. NOT RECOMMENDED FOR CAUSTIC LYE STORAGE APPLICATIONS. SUITABLE FOR PH RANGING FROM 0-10 WITH OPERATIONAL TEMPERATURE LESS THAN 40 DEG C. </p>
+                            <h2 class="title">SATHYA-EPM UC 100 C </h2>
+                            <p>CERAMIC FILLED VERSION OF EPM-UC 100 FOR ENHANCED ABRASION & EROSION RESISTANCE. THIS COATING SYSTEM WAS ENGINEERED TO MINIMIZE WATER VAPOR TRANSMISSION RATES BY EMPLOYING A PROPRIETARY MIXTURE OF HIGH ASPECT RATIO, CHEMICALLY RESISTANT NANO CERAMIC FILLERS. THIS PLATELET FILLER BLOCKS MICROSCOPIC PORES, SIGNIFICANTLY INCREASING THE COATINGS RESISTANCE TO COLD WALL, DISTILLED WATER, SOLVENTS, AS WELL AS STRONG ACIDS. RECOMMENDED FOR CAUSTIC LYE STORAGE APPLICATIONS. SUITABLE FOR PH RANGING FROM 0-14.5 WITH OPERATIONAL TEMPERATURE LESS THAN 40 DEG C.  </p>
+                            <h2 class="title">SATHYA – EPM UC 200  </h2>
+                            <p>UNIQUELY MODIFIED TAILOR-MADE ENGINEERED POLYMER WITH NOVOLAC VINYL ESTER CHEMISTRY. IDEALLY RECOMMENDED FOR APPLICATION IN CONCRETE & STEEL REQUIRING EXTENSIVE CHEMICAL RESISTANCE FROM ORGANIC & INORGANIC ACIDS, CAUSTIC LYE, HYDROCARBONS, SOLVENTS ETC.. RECOMMENDED FOR PH RANGING FROM 0-14, WITH OPERATIONAL TEMPERATURE OF UPTO 90 DEG C. </p>
+                            <h2 class="title">SATHYA-EPM UC 200 GF  </h2>
+                            <p>GLASS FLAKES FILLED VERSION OF EPM-UC 200 FOR ENHANCED ABRASION RESISTANCE. THIS COATING SYSTEM WAS ENGINEERED TO MINIMIZE WATER VAPOR TRANSMISSION RATES BY EMPLOYING A PROPRIETARY MIXTURE OF HIGH ASPECT RATIO, CHEMICALLY RESISTANT FLAKE GLASS. THIS PLATELET FILLER BLOCKS MICROSCOPIC PORES, SIGNIFICANTLY INCREASING THE COATINGS RESISTANCE TO COLD WALL, DISTILLED WATER, SOLVENTS, AS WELL AS STRONG ACIDS. NOT RECOMMENDED FOR CAUSTIC LYE STORAGE APPLICATIONS. SUITABLE FOR PH RANGING FROM 0-10 WITH OPERATIONAL TEMPERATURE LESS THAN MORE THAN 40 DEG C UPTO 90 DEG C.</p>
+                            <h2 class="title">SATHYA-EPM UC 200 C </h2>
+                            <p>CERAMIC FILLED VERSION OF EPM-UC 200 FOR ENHANCED ABRASION & EROSION RESISTANCE. THIS COATING SYSTEM WAS ENGINEERED TO MINIMIZE WATER VAPOR TRANSMISSION RATES BY EMPLOYING A PROPRIETARY MIXTURE OF HIGH ASPECT RATIO, CHEMICALLY RESISTANT NANO CERAMIC FILLERS. THIS PLATELET FILLER BLOCKS MICROSCOPIC PORES, SIGNIFICANTLY INCREASING THE COATINGS RESISTANCE TO COLD WALL, DISTILLED WATER, SOLVENTS, AS WELL AS STRONG ACIDS. RECOMMENDED FOR CAUSTIC LYE STORAGE APPLICATIONS. SUITABLE FOR PH RANGING FROM 0-14.5 WITH OPERATIONAL TEMPERATURE MORE THAN 40 DEG C UPTO 90 DEG C.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- blog-details-area-end -->
+
+    </main>
+    <!-- main-area-end -->
+
+<?php
+include("footer.php");
+?>   
