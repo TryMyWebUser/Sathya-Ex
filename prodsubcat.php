@@ -2,19 +2,11 @@
 include("header.php");
 ?>
 
+<!-- Styles -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/css/intlTelInput.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
 <style>
-    #css-dropdown {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        width: 300px;
-        height: 42px;
-        margin: 100px auto 0 auto;
-    }
-
     .row.gutter-24 {
         margin: 20px 0;
         padding: 20px;
@@ -28,77 +20,22 @@ include("header.php");
         border: none;
         border-radius: 4px;
         cursor: pointer;
-        transition: all 0.3s;
     }
     .btn-default:hover {
         background-color: #009688;
-        transform: translateY(-2px);
         color: #fff;
+        transform: translateY(-2px);
     }
-    .help-block.with-errors {
-        color: #dc3545;
-        font-size: 0.875em;
-        margin-top: 5px;
-    }
-    .modal-content {
-        border-radius: 10px;
-        overflow: hidden;
-    }
-    .modal-header {
-        background-color: #b3dfd9;
-        color: white;
-    }
+    .help-block.with-errors { color: #dc3545; font-size: 0.875em; margin-top: 5px; }
+    .modal-content { border-radius: 10px; overflow: hidden; }
+    .modal-header { background-color: #b3dfd9; color: white; }
 
-    /* Phone input specific styles */
-    .iti {
-        width: 100%;
-        display: block;
-    }
+    .iti { width: 100%; }
+    #phone { padding-left: 90px !important; width: 100% !important; }
 
-    .iti__selected-flag {
-        padding: 0 10px;
-    }
-
-    .iti--allow-dropdown .iti__flag-container,
-    .iti--separate-dial-code .iti__flag-container {
-        width: auto;
-    }
-
-    #phone {
-        padding-left: 90px !important;
-        width: 100% !important;
-    }
-
-    .iti__selected-dial-code {
-        font-size: 14px;
-    }
-
-    /* Choices.js multiselect styling */
-    .choices {
-        margin-bottom: 0;
-    }
-    .choices__inner {
-        min-height: 45px;
-        border-radius: 4px;
-        border: 1px solid #ced4da;
-        background-color: #fff;
-    }
-    .choices__list--multiple .choices__item {
-        background-color: #b3dfd9;
-        border: 1px solid #009688;
-        color: white;
-    }
-    .choices__list--multiple .choices__item.is-highlighted {
-        background-color: #009688;
-    }
-    .choices__input {
-        margin-bottom: 0;
-    }
-
-    .choices__list--dropdown,
-    .choices__list[aria-expanded] {
-        z-index: 100 !important;
-    }
+    .choices__inner { min-height: 45px; border-radius: 4px; border: 1px solid #ced4da; }
+    .choices__list--multiple .choices__item { background-color: #b3dfd9; border: 1px solid #009688; color: white; }
+    .choices__list--dropdown, .choices__list[aria-expanded] { z-index: 100 !important; }
 </style>
 
 <!-- main-area -->
@@ -118,10 +55,10 @@ $result = $conn->query($query); if ($result->num_rows > 0) { $row = $result->fet
         <div class="container">
             <div class="row gutter-24">
                 <?php
-    include("config.php");
-    $id = $_GET['id'];
-    $categoryQuery = "SELECT * FROM prodsubcat WHERE cat_id = '$id'";
-    $categoryResult = $conn->query($categoryQuery); if ($categoryResult->num_rows > 0) { while ($row = $categoryResult->fetch_assoc()) { ?>
+                    include("config.php");
+                    $id = $_GET['id'];
+                    $categoryQuery = "SELECT * FROM prodsubcat WHERE cat_id = '$id'";
+                    $categoryResult = $conn->query($categoryQuery); if ($categoryResult->num_rows > 0) { while ($row = $categoryResult->fetch_assoc()) { ?>
                 <div class="col-lg-3">
                     <div class="blog__post-item-three">
                         <!-- <a href="anticorrosive.php?id=< ?php echo $row['subcat_id']; ?>"> -->
@@ -152,14 +89,14 @@ $result = $conn->query($query); if ($result->num_rows > 0) { $row = $result->fet
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="contactFormModalLabel"><i class="fas fa-envelope me-2"></i> Enquiry Form</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title"><i class="fas fa-envelope me-2"></i> Enquiry Form</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="contactForm" method="POST" class="animate__animated animate__fadeInUp" data-wow-delay="0.4s">
+                    <form id="contactForm" method="POST">
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="products">Select Products*</label>
+                                <label for="product-choices">Select Turnkey Solution*</label>
                                 <select id="product-choices" name="products[]" multiple>
                                     <?php
                                         include("config.php");
@@ -173,39 +110,28 @@ $result = $conn->query($query); if ($result->num_rows > 0) { $row = $result->fet
                                 </select>
                                 <div class="help-block with-errors"></div>
                             </div>
-
                             <div class="form-group col-md-6 mb-4">
-                                <input type="text" name="name" class="form-control" id="name" placeholder="Name*" required />
-                                <div class="help-block with-errors"></div>
+                                <input type="text" name="name" class="form-control" placeholder="Name*" required />
                             </div>
-
                             <div class="form-group col-md-6 mb-4">
-                                <input type="text" name="org" class="form-control" id="org" placeholder="Name of Organization*" required />
-                                <div class="help-block with-errors"></div>
+                                <input type="text" name="org" class="form-control" placeholder="Name of Organization*" required />
                             </div>
-
                             <div class="form-group col-md-12 mb-4">
-                                <input type="text" name="des" class="form-control" id="designation" placeholder="Designation*" required />
-                                <div class="help-block with-errors"></div>
+                                <input type="text" name="des" class="form-control" placeholder="Designation*" required />
                             </div>
-
                             <div class="form-group col-md-6 mb-4">
-                                <input type="email" name="email" class="form-control" id="email" placeholder="Email Address*" required />
-                                <div class="help-block with-errors"></div>
+                                <input type="email" name="email" class="form-control" placeholder="Email Address*" required />
                             </div>
-
                             <div class="form-group col-md-6 mb-4">
                                 <input type="tel" id="phone" name="phone" class="form-control" placeholder="Your Phone*" required />
-                                <div class="help-block with-errors"></div>
                             </div>
-
                             <div class="form-group col-md-12 mb-4">
-                                <textarea name="message" class="form-control" id="message" rows="4" placeholder="Your Message"></textarea>
-                                <div class="help-block with-errors"></div>
+                                <textarea name="message" class="form-control" rows="4" placeholder="Your Message"></textarea>
                             </div>
-
                             <div class="col-md-12 text-center">
-                                <button type="submit" class="btn-default" onclick="showWaitingMessageAndSendRequest()"><i class="fas fa-paper-plane me-2"></i>Submit</button>
+                                <button type="submit" class="btn-default" onclick="showWaitingMessageAndSendRequest(event)">
+                                    <i class="fas fa-paper-plane me-2"></i>Submit
+                                </button>
                                 <div id="msgSubmit" class="h3 d-none mt-3"></div>
                             </div>
                         </div>
@@ -215,214 +141,100 @@ $result = $conn->query($query); if ($result->num_rows > 0) { $row = $result->fet
         </div>
     </div>
 </main>
-<!-- main-area-end -->
 
-<!-- Add these instead -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/intlTelInput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js"></script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Initialize phone input
+    document.addEventListener("DOMContentLoaded", () => {
         const phoneInput = document.querySelector("#phone");
-        window.intlTelInput(phoneInput, {
+
+        // Initialize intlTelInput
+        window.iti = window.intlTelInput(phoneInput, {
             separateDialCode: true,
             initialCountry: "auto",
-            geoIpLookup: function (success, failure) {
+            geoIpLookup: (success, failure) => {
                 fetch("https://ipinfo.io?token=fa3c9e544ceaa1", {
-                    headers: { Accept: "application/json" },
+                    headers: { Accept: "application/json" }
                 })
-                    .then((response) => response.json())
-                    .then((data) => success(data.country))
-                    .catch(() => success("in")); // Default to India
+                .then(res => res.json())
+                .then(data => success(data.country))
+                .catch(() => success("in"));
             },
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js",
         });
 
-        // Initialize Choices.js multiselect
-        const productSelect = new Choices("#product-choices", {
+        // Initialize Choices.js
+        window.productSelect = new Choices("#product-choices", {
             removeItemButton: true,
-            maxItemCount: 5,
             searchEnabled: true,
-            duplicateItemsAllowed: false,
-            placeholder: true,
-            placeholderValue: "Select products",
-            searchPlaceholderValue: "Search products",
-            shouldSort: false,
-        });
-
-        // Form submission handling
-        document.getElementById("contactForm").addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
-            submitBtn.disabled = true;
-
-            // Get selected products
-            const selectedProducts = productSelect.getValue(true);
-            console.log("Selected products:", selectedProducts);
-
-            // Simulate form submission
-            setTimeout(() => {
-                const msgSubmit = document.getElementById("msgSubmit");
-                msgSubmit.className = "h3 text-success mt-3";
-                msgSubmit.innerHTML = '<i class="fas fa-check-circle me-2"></i> Your message has been sent successfully!';
-                msgSubmit.classList.remove("d-none");
-
-                this.reset();
-                productSelect.removeActiveItems();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-
-                setTimeout(() => {
-                    msgSubmit.classList.add("d-none");
-                    bootstrap.Modal.getInstance(document.getElementById("contactFormModal")).hide();
-                }, 5000);
-            }, 1500);
+            placeholderValue: "Select turnkey solution",
         });
     });
-</script>
 
-<script>
-    // Initialize WOW.js for animations
-    new WOW().init();
-
-    // Form submission handling
-    document.getElementById("contactForm").addEventListener("submit", function (e) {
+    function showWaitingMessageAndSendRequest(e) {
         e.preventDefault();
 
-        // Show loading state
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
-        submitBtn.disabled = true;
-
-        // Simulate form submission (replace with actual AJAX call)
-        setTimeout(() => {
-            // Show success message
-            const msgSubmit = document.getElementById("msgSubmit");
-            msgSubmit.className = "h3 text-success mt-3";
-            msgSubmit.innerHTML = '<i class="fas fa-check-circle me-2"></i> Your message has been sent successfully!';
-            msgSubmit.classList.remove("d-none");
-
-            // Reset form and button
-            this.reset();
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-
-            // Hide message after 5 seconds
-            setTimeout(() => {
-                msgSubmit.classList.add("d-none");
-                // Close the modal after successful submission
-                const modal = bootstrap.Modal.getInstance(document.getElementById("contactFormModal"));
-                modal.hide();
-            }, 5000);
-        }, 1500);
-    });
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/intlTelInput.min.js"></script>
-<script>
-    const input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-        separateDialCode: true,
-        initialCountry: "auto",
-        geoIpLookup: function (success, failure) {
-            fetch("https://ipinfo.io?token=fa3c9e544ceaa1", { headers: { Accept: "application/json" } })
-                .then((response) => response.json())
-                .then((data) => success(data.country))
-                .catch(() => success("us"));
-        },
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js",
-    });
-</script>
-
-<!-- SweetAlert2 CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<script>
-    function showWaitingMessageAndSendRequest() {
         Swal.fire({
             title: 'Submitting...',
             text: 'Please wait while we process your application.',
             allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-        sendApplicationRequest();
-    }
-
-    function sendApplicationRequest() {
-        let submit = document.querySelector(".submit");
-
-        // Create a plain object to hold the form data
-        let formDataObject = {
-            fullName: document.querySelector("input[name='fullName']").value,
-            email: document.querySelector("input[name='email']").value,
-            subject: document.querySelector("input[name='subject']").value,
-            phoneNumber: document.querySelector("input[name='phone']").value,
-            message: document.querySelector("textarea[name='message']").value
-        };
-
-        // Log the plain object to make sure it is populated
-        console.log("Form data object:", formDataObject);
-
-        // Convert the plain object to FormData
-        let formData = new FormData();
-        for (let key in formDataObject) {
-            if (formDataObject.hasOwnProperty(key)) {
-                formData.append(key, formDataObject[key]);
-            }
-        }
-
-        // Log the FormData object to ensure it is populated
-        formData.forEach((value, key) => {
-            console.log(`${key}: ${value}`);
+            didOpen: () => Swal.showLoading()
         });
 
-        fetch("admin/libs/Broker.class.php", {
+        // Get selected products
+        const selectedProducts = productSelect.getValue(true);
+
+        // Prepare form data
+        const formData = new FormData();
+        selectedProducts.forEach(value => formData.append("products[]", value));
+
+        const name = document.querySelector("input[name='name']").value;
+        const org = document.querySelector("input[name='org']").value;
+        const des = document.querySelector("input[name='des']").value;
+        const email = document.querySelector("input[name='email']").value;
+        const phone = iti.getNumber();
+        const message = document.querySelector("textarea[name='message']").value;
+
+        formData.append("name", name);
+        formData.append("org", org);
+        formData.append("des", des);
+        formData.append("email", email);
+        formData.append("phone", phone);
+        formData.append("message", message);
+
+        // Send the request
+        fetch("sathyadb/Broker.php", {
             method: "POST",
             body: formData
         })
-        .then(response => {
-            console.log("Response status:", response.status); // Log the status code
-            return response.text(); // Get the raw text response for better debugging
-        })
+        .then(response => response.text())
         .then(text => {
-            console.log("Server response:", text); // Log the raw server response
             try {
-                const data = JSON.parse(text); // Try parsing the JSON response
+                const data = JSON.parse(text);
+
                 if (data.success) {
-                    showSuccessMessage();
+                    Swal.fire({
+                        icon: "success",
+                        title: "Submitted!",
+                        html: "Our team will get back to you shortly.",
+                        confirmButtonText: "OK"
+                    }).then(() => location.reload());
                 } else {
-                    showErrorMessage(data.message);
+                    showErrorMessage(data.message || "Something went wrong!");
                 }
-            } catch (error) {
-                console.error("Error parsing JSON:", error); // Log if JSON parsing fails
-                showErrorMessage("An unexpected error occurred. Please try again later.");
+            } catch (err) {
+                showErrorMessage("Invalid server response. Please try again later.");
+                console.error("Parsing error:", err);
             }
         })
         .catch(error => {
-            console.error("Fetch error:", error); // Log fetch-related errors
-            showErrorMessage("An unexpected error occurred. Please try again later.");
-        });
-    }
-
-
-    function showSuccessMessage() {
-        Swal.fire({
-            icon: "success",
-            title: "Contact Form Submitted!",
-            html: `<p>Our team will review your application and get back to you.</p>`,
-            confirmButtonText: 'OK',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "contact.php";
-            }
+            showErrorMessage("Submission failed. Please check your connection.");
+            console.error("Fetch error:", error);
         });
     }
 
@@ -431,11 +243,7 @@ $result = $conn->query($query); if ($result->num_rows > 0) { $row = $result->fet
             icon: "error",
             title: "Submission Failed",
             text: message,
-            confirmButtonText: 'OK',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "contact.php";
-            }
+            confirmButtonText: "OK"
         });
     }
 </script>

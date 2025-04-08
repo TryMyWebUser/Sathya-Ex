@@ -141,7 +141,7 @@ if ($result->num_rows > 0) {
                             <span class="sub-title">Get In Touch</span>
                             <!-- <h2 class="title">Needs Help? Let’s Get in Touch</h2> -->
                         </div>
-                        <form action="contactmail.php" method="post" class="contact__form">
+                        <form id="contactForm" method="post" class="contact__form">
                             <div class="row gutter-20">
                                 <div class="col-md-6">
                                     <div class="form-grp">
@@ -166,7 +166,7 @@ if ($result->num_rows > 0) {
                             <div class="form-grp">
                                 <textarea name="message" rows="4" placeholder="Type Your Message"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-two">Send Message</button>
+                            <button type="submit" class="btn btn-two" onclick="showWaitingMessageAndSendRequest(event)">Send Message</button>
                             <p class="ajax-response mb-0"></p>
                         </form>
                     </div>
@@ -179,20 +179,106 @@ if ($result->num_rows > 0) {
 </main>
 <!-- main-area-end -->
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/intlTelInput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js"></script>
+
 <script>
-    const input = document.querySelector("#phone");
-    window.intlTelInput(input, {
-        separateDialCode: true,
-        initialCountry: "auto",
-        geoIpLookup: function (success, failure) {
-            fetch("https://ipinfo.io?token=fa3c9e544ceaa1", { headers: { Accept: "application/json" } })
-                .then((response) => response.json())
-                .then((data) => success(data.country))
-                .catch(() => success("us"));
-        },
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js",
+    document.addEventListener("DOMContentLoaded", () => {
+        const phoneInput = document.querySelector("#phone");
+
+        // Initialize intlTelInput
+        window.iti = window.intlTelInput(phoneInput, {
+            separateDialCode: true,
+            initialCountry: "auto",
+            geoIpLookup: (success, failure) => {
+                fetch("https://ipinfo.io?token=fa3c9e544ceaa1", {
+                    headers: { Accept: "application/json" }
+                })
+                .then(res => res.json())
+                .then(data => success(data.country))
+                .catch(() => success("in"));
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js",
+        });
     });
+
+    function showWaitingMessageAndSendRequest(e) {
+        e.preventDefault();
+        // console.log("Form submission started.");
+
+        Swal.fire({
+            title: 'Submitting...',
+            text: 'Please wait while we process your application.',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        // Prepare form data
+        const formData = new FormData();
+
+        const name = document.querySelector("input[name='name']").value;
+        const org = document.querySelector("input[name='org']").value;
+        const des = document.querySelector("input[name='des']").value;
+        const email = document.querySelector("input[name='email']").value;
+        const phone = iti.getNumber();
+        const message = document.querySelector("textarea[name='message']").value;
+
+        // console.log("Collected form data:", { name, org, des, email, phone, message });
+
+        formData.append("name", name);
+        formData.append("org", org);
+        formData.append("des", des);
+        formData.append("email", email);
+        formData.append("phone", phone);
+        formData.append("message", message);
+
+        // Send the request
+        fetch("sathyadb/Broker.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => {
+            // console.log("Received response from server.");
+            return response.text();
+        })
+        .then(text => {
+            // console.log("Raw response text:", text);
+            try {
+                const data = JSON.parse(text);
+                // console.log("Parsed response JSON:", data);
+
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Submitted!",
+                        html: "Our team will get back to you shortly.",
+                        confirmButtonText: "OK"
+                    }).then(() => location.reload());
+                } else {
+                    console.warn("Server returned success: false");
+                    showErrorMessage(data.message || "Something went wrong!");
+                }
+            } catch (err) {
+                showErrorMessage("Invalid server response. Please try again later.");
+                console.error("Error parsing JSON:", err);
+            }
+        })
+        .catch(error => {
+            showErrorMessage("Submission failed. Please check your connection.");
+            console.error("Fetch failed:", error);
+        });
+    }
+
+    function showErrorMessage(message) {
+        Swal.fire({
+            icon: "error",
+            title: "Submission Failed",
+            text: message,
+            confirmButtonText: "OK"
+        });
+    }
 </script>
 
 <?php

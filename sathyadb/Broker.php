@@ -39,15 +39,26 @@ if (!empty($_POST)) {
 
     // Send email using Mailer class
     $emailService = new Mailer();
-    $emailResult = $emailService->sendEnquiryForm([
-        "name" => $name,
-        "organization" => $org,
-        "designation" => $designation,
-        "email" => $email,
-        "phone" => $phone,
-        "message" => $message,
-        "products" => $selectedSolutions
-    ]);
+    if (!empty($products)) {
+        $emailResult = $emailService->sendEnquiryForm([
+            "name" => $name,
+            "organization" => $org,
+            "designation" => $designation,
+            "email" => $email,
+            "phone" => $phone,
+            "message" => $message,
+            "products" => $selectedSolutions
+        ]);
+    } else {
+        $emailResult = $emailService->sendContactMail([
+            "name" => $name,
+            "organization" => $org,
+            "designation" => $designation,
+            "email" => $email,
+            "phone" => $phone,
+            "message" => $message
+        ]);        
+    }
 
     if ($emailResult["success"]) {
         echo json_encode([

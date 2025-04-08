@@ -73,7 +73,7 @@
 
             <div class="row gutter-24">
                 <h3>For further details on specific products, connect with us by 
-                    <a href="#" style="color: #2196f3;" data-bs-toggle="modal" data-bs-target="#contactFormModal">clicking here</a>.
+                    <a href="#" style="color: #2196f3;" data-bs-toggle="modal" data-bs-target="#contactFormModal">click here</a>.
                 </h3>
             </div>
         </div>
@@ -146,18 +146,23 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const phoneInput = document.querySelector("#phone");
-        const iti = window.intlTelInput(phoneInput, {
+
+        // Initialize intlTelInput
+        window.iti = window.intlTelInput(phoneInput, {
             separateDialCode: true,
             initialCountry: "auto",
             geoIpLookup: (success, failure) => {
-                fetch("https://ipinfo.io?token=fa3c9e544ceaa1", { headers: { Accept: "application/json" } })
-                    .then(res => res.json())
-                    .then(data => success(data.country))
-                    .catch(() => success("in"));
+                fetch("https://ipinfo.io?token=fa3c9e544ceaa1", {
+                    headers: { Accept: "application/json" }
+                })
+                .then(res => res.json())
+                .then(data => success(data.country))
+                .catch(() => success("in"));
             },
             utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.17/js/utils.js",
         });
 
+        // Initialize Choices.js
         window.productSelect = new Choices("#product-choices", {
             removeItemButton: true,
             searchEnabled: true,
@@ -168,8 +173,6 @@
     function showWaitingMessageAndSendRequest(e) {
         e.preventDefault();
 
-        console.log("Form submission started...");
-
         Swal.fire({
             title: 'Submitting...',
             text: 'Please wait while we process your application.',
@@ -177,11 +180,10 @@
             didOpen: () => Swal.showLoading()
         });
 
-        // 1. Get selected products
+        // Get selected products
         const selectedProducts = productSelect.getValue(true);
-        console.log("Selected products:", selectedProducts);
 
-        // 2. Prepare form data
+        // Prepare form data
         const formData = new FormData();
         selectedProducts.forEach(value => formData.append("products[]", value));
 
@@ -189,7 +191,7 @@
         const org = document.querySelector("input[name='org']").value;
         const des = document.querySelector("input[name='des']").value;
         const email = document.querySelector("input[name='email']").value;
-        const phone = document.querySelector("input[name='phone']").value;
+        const phone = iti.getNumber();
         const message = document.querySelector("textarea[name='message']").value;
 
         formData.append("name", name);
@@ -199,27 +201,15 @@
         formData.append("phone", phone);
         formData.append("message", message);
 
-        // 3. Log all form values
-        console.log("Form data values:");
-        for (let pair of formData.entries()) {
-            console.log(`${pair[0]}: ${pair[1]}`);
-        }
-
-        // 4. Send request
+        // Send the request
         fetch("sathyadb/Broker.php", {
             method: "POST",
             body: formData
         })
-        .then(response => {
-            console.log("Server response received.");
-            return response.text();
-        })
+        .then(response => response.text())
         .then(text => {
-            console.log("Raw response text:", text);
-
             try {
                 const data = JSON.parse(text);
-                console.log("Parsed JSON:", data);
 
                 if (data.success) {
                     Swal.fire({
@@ -229,17 +219,16 @@
                         confirmButtonText: "OK"
                     }).then(() => location.reload());
                 } else {
-                    console.warn("Server responded with error:", data.message);
-                    showErrorMessage(data.message);
+                    showErrorMessage(data.message || "Something went wrong!");
                 }
             } catch (err) {
-                console.error("Error parsing JSON response:", err);
-                showErrorMessage("An error occurred. Please try again later.");
+                showErrorMessage("Invalid server response. Please try again later.");
+                console.error("Parsing error:", err);
             }
         })
         .catch(error => {
-            console.error("Fetch request failed:", error);
-            showErrorMessage("Submission failed. Please check your internet connection.");
+            showErrorMessage("Submission failed. Please check your connection.");
+            console.error("Fetch error:", error);
         });
     }
 
