@@ -6,11 +6,14 @@ if (!isset( $_SESSION['email_admin'])) {
     exit();
 }
 ?>
+<?php include("header.php"); ?>
 <?php
 include("config.php");
 
 if(isset($_GET['delete'])){
     $id = $_GET['delete'];
+    
+    // SweetAlert confirmation dialog
     echo "<script>
             Swal.fire({
                 title: 'Are you sure?',
@@ -22,10 +25,10 @@ if(isset($_GET['delete'])){
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                 window.location.href = 'imageview.php?confirmed_delete={$id}';
+                 window.location.href = 'view3.php?confirmed_delete={$id}';
                 } else {
                     // If canceled, stay on the same page
-                    window.location.href = 'imageview.php';
+                    window.location.href = 'view3.php';
                 }
             });
           </script>";
@@ -33,7 +36,7 @@ if(isset($_GET['delete'])){
 
 if(isset($_GET['confirmed_delete'])){
     $id = $_GET['confirmed_delete'];
-    $sql = "DELETE FROM `images` WHERE i_id= '$id'";
+    $sql = "DELETE FROM `industry` WHERE id= '$id'";
     $result = mysqli_query($conn, $sql);
     if(!$result){
         echo "<script>
@@ -42,20 +45,19 @@ if(isset($_GET['confirmed_delete'])){
                     'Error deleting record.',
                     'error'
                 ).then(() => {
-                    window.location.href = 'imageview.php';
+                    window.location.href = 'view3.php';
                 });
               </script>"; 
     }
 }
 ?>
-<?php include("header.php"); ?>
 <div class="page-title-area">
     <div class="row align-items-center">
         <div class="col-sm-12 col-lg-12 col-md-12 col-12">
             <div class="breadcrumbs-area clearfix">
                 <ul class="breadcrumbs float-right">
                     <li><a href="index.php">Home</a></li>
-                    <li><span>Gallery Image</span></li>
+                    <li><span>Industry</span></li>
                 </ul>
             </div>
         </div>
@@ -65,7 +67,7 @@ if(isset($_GET['confirmed_delete'])){
     <div class="col-md-12">
         <div class="card m-b-30">
             <div class="card-header bg-white">
-                <h3 class="card-title">Images</h3>
+                <h3 class="card-title">Industry Details</h3>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -73,44 +75,42 @@ if(isset($_GET['confirmed_delete'])){
                         <thead>
                             <tr>
                                 <th>S.No</th>
+                                <th>Image</th>
+                                <th>Category Name</th>
                                 <th>Product Name</th>
-                                <th>Position</th>
                                 <th>Description</th>
-                                <th>Product Image</th>
                                 <th>Access</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            // Fetch data from the images table
-                            include('config.php');
-                            $productQuery = "SELECT * FROM images";
-                            $productResult = $conn->query($productQuery);
+                                    // Fetch data from the products table
+                                    include('config.php');
+                                    $productQuery = "SELECT * FROM industry";
+                                    $productResult = $conn->query($productQuery);
 
-                            if ($productResult->num_rows > 0) {
-                                $i = 0;
-                                while ($row = $productResult->fetch_assoc()) {
-                                    $i++;
-                                    echo "<tr>";
-                                    echo "<td>" . $i . "</td>";
-                                    echo "<td>" . $row['name']  . "</td>";
-                                    echo "<td>" . $row['position']  . "</td>";
-                                    echo "<td>" . $row['dec']  . "</td>";
-                                    echo "<td><img src='gallery/" . $row['image'] . "' height='50' width='50'></td>";
-                                    echo "<td style='display:flex;'>                              
-                                            <a href='imageupdate.php?update=" . $row['i_id'] . "' class='btn' style='margin-right:5px;background-color: #8e2655;'>
-                                                <i class='fa fa-edit' style='color: white;'></i>
-                                            </a>
-                                            <a href='?delete=" . $row['i_id'] . "' class='btn btn-danger'>
-                                                <i class='fa fa-trash' style='color: white;'></i>
-                                            </a>
-                                          </td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='3'>No images found.</td></tr>";
-                            }
-                            ?>
+                                    if ($productResult->num_rows > 0) {
+                                        $i=0;
+                                        while ($row = $productResult->fetch_assoc()) {
+                                            $i++;
+                                            echo "<tr>";
+                                            echo "<td>" . $i . "</td>";
+                                            echo "<td><img src='subindu/" . $row['image_name'] . "' height='50' width='50'></td>";
+                                            echo "<td>" . $row['heading1'] . "</td>";
+                                            echo "<td>" . $row['heading2'] . "</td>";
+                                            echo "<td>" . $row['description'] . "</td>";
+                                            echo "<td style='display:flex;'>                              
+                                            <a href='update3.php?update=" . $row['id'] . "' class='btn' style='margin-right:5px;background-color: #8e2655;'>
+                                                        <i class='fa fa-edit' style='color: white;'></i></a>
+                                            <a href='?delete=" .$row['id'] . "' class='btn btn-danger'>
+                                                        <i class='fa fa-trash' style='color: white;'></i></a>
+                                                    </td>";
+                                                echo "</tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='4'>No products found.</td></tr>";
+                                    }
+                                    ?>
                         </tbody>
                     </table>
                 </div>

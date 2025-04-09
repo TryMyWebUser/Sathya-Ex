@@ -15,6 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     $head1 = mysqli_real_escape_string($conn, $_POST["head1"]);
     $head2 = mysqli_real_escape_string($conn, $_POST["head2"]);
     $head3 = mysqli_real_escape_string($conn, $_POST["head3"]);
+    $link = mysqli_real_escape_string($conn, $_POST["link"]);
+    $you = mysqli_real_escape_string($conn, $_POST["you"]);
+    $wp = mysqli_real_escape_string($conn, $_POST["wp"]);
 
     $img1 = "";
     $img2 = "";
@@ -40,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
 
     // Construct the update query
-    $updateSql = "UPDATE contactcontent SET heading1 = '$head1', heading2 = '$head2', heading3 = '$head3'";
+    $updateSql = "UPDATE contactcontent SET heading1 = '$head1', heading2 = '$head2', heading3 = '$head3', linkedin = '$link', youtube = '$you', whatsapp = '$wp'";
     if ($img1 !== "") {
         $updateSql .= ", img1 = '$img1'";
     }
@@ -118,6 +121,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         $heading1 =  $row['heading1'];
                         $heading2 =  $row['heading2'];
                         $heading3 =  $row['heading3'];
+                        $l = $row['linkedin'];
+                        $y = $row['youtube'];
+                        $w = $row['whatsapp'];
                     }
                     ?>
                 <form method="POST" enctype="multipart/form-data">
@@ -148,6 +154,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
                         <label for="productImage" class="form-label">Contact Image</label>
                         <input type="file" class="form-control" id="productImage" name="logo3">
                         <img src="<?php echo $aimage3; ?>" style="width:100px; height:50px;">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="heading" class="" style="font-weight:bold; color:black;">Linkedin</label>
+                        <input name="link" id="" placeholder="Enter the linkedin full url" value="<?php echo $l ?>" type="text" class="form-control">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="heading" class="" style="font-weight:bold; color:black;">YouTube</label>
+                        <input name="you" id="" placeholder="Enter the youtube full url" value="<?php echo $y ?>" type="text" class="form-control">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="heading" class="" style="font-weight:bold; color:black;">WhatsApp - Use Number Only</label>
+                        <input name="wp" id="" placeholder="Enter the Number only" value="<?php echo $w ?>" type="text" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                 </form>

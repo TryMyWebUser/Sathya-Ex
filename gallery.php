@@ -71,7 +71,7 @@ include("header.php");
         <div class="modal-content">
             <img id="modalImage" src="" alt="">
         </div>
-        <!-- <div id="caption"></div> -->
+        <div id="caption"></div>
     </div>
 
     <!-- blog-post-area-end -->
@@ -219,7 +219,7 @@ include("header.php");
             modal.style.display = "block";
             var imagePath = "sathyadb/gallery/" + galleryImages[index].image;
             modalImg.src = imagePath;
-            captionText.innerHTML = galleryImages[index].name || '';
+            captionText.innerHTML = galleryImages[index].dec || '';
         }
     });
 </script>

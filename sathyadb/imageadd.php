@@ -14,6 +14,7 @@ include("config.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = mysqli_real_escape_string($conn, $_POST["name"]);
     $display = mysqli_real_escape_string($conn, $_POST["display"]);
+    $dec = mysqli_real_escape_string($conn, $_POST["dec"]);
     
     // Check if a file is selected
     if (isset($_FILES['logo2']) && $_FILES['logo2']['error'] === UPLOAD_ERR_OK) {
@@ -29,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $newfname2 = 'gallery/' . basename($aimage);
         if (move_uploaded_file($fname, $newfname2)) {
             // Insert the image filename into the database
-            $insertSql = "INSERT INTO images (image, name, position) VALUES ('$aimage', '$name', '$display')";
+            $insertSql = "INSERT INTO images (image, name, position, `dec`) VALUES ('$aimage', '$name', '$display', '$dec')";
             
             if ($conn->query($insertSql)) {
                 echo "<script>
@@ -110,6 +111,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="productImage" class="form-label" style="color: black; font-weight:bold">Product
                             Name</label>
                         <input type="text" class="form-control" id="productImage" name="name">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="productImage" class="form-label" style="color: black; font-weight:bold">Product
+                        Description</label>
+                        <textarea class="form-control" id="editor" name="dec" rows="5" col="5"></textarea>
                     </div>
                     <div class="position-relative form-group">
                         <label for="productImage" class="form-label" style="color: black; font-weight:bold">Product

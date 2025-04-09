@@ -90,6 +90,9 @@ if(isset($_GET['confirmed_delete'])){
                                 <th>Mobile Number </th>
                                 <th>Email Image</th>
                                 <th>Email </th>
+                                <th>Linkedin</th>
+                                <th>YouTube</th>
+                                <th>WhatsApp</th>
                                 <th>Access</th>
                             </tr>
                         </thead>
@@ -109,7 +112,10 @@ if(isset($_GET['confirmed_delete'])){
                                     echo "<td><img src='cimages/" . $row['img2'] . "' height='50' width='50'></td>";
                                     echo "<td>" . $row['heading2']  . "</td>";
                                     echo "<td><img src='cimages/" . $row['img3'] . "' height='50' width='50'></td>";
-                                    echo "<td>" . $row['heading3']  . "</td>";                                                                   
+                                    echo "<td>" . $row['heading3']  . "</td>";     
+                                    echo "<td><a style='color: #2196F3;' href='" . $row['linkedin']  . "'>Linkedin</a></td>";     
+                                    echo "<td><a style='color: #2196F3;' href='" . $row['youtube']  . "'>YouTube</a></td>";     
+                                    echo "<td><a style='color: #2196F3;' href='https://wa.me/" . $row['whatsapp']  . "'>WhatsApp</a></td>";                                                                   
                                  
                                     echo "<td style='display:flex;'>                              
                                             <a href='contactcontentupdate.php?update=" . $row['id'] . "' class='btn' style='margin-right:5px;background-color: #8e2655;'>

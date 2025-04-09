@@ -12,6 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $head1 = mysqli_real_escape_string($conn, $_POST["head1"]);
     $head2 = mysqli_real_escape_string($conn, $_POST["head2"]);
     $head3 = mysqli_real_escape_string($conn, $_POST["head3"]);
+    $link = mysqli_real_escape_string($conn, $_POST["link"]);
+    $you = mysqli_real_escape_string($conn, $_POST["you"]);
+    $wp = mysqli_real_escape_string($conn, $_POST["wp"]);
 
     $img1 = "";
     $img2 = "";
@@ -36,8 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mkdir('cimages/');
     }
 
-    $insertSql = "INSERT INTO contactcontent (img1, heading1, img2, heading2, img3, heading3) 
-    VALUES ('$img1', '$head1', '$img2', '$head2', '$img3', '$head3')";
+    $insertSql = "INSERT INTO contactcontent (img1, heading1, img2, heading2, img3, heading3, linkedin, youtube, whatsapp) 
+    VALUES ('$img1', '$head1', '$img2', '$head2', '$img3', '$head3', '$link', '$you', '$wp')";
     
     if ($conn->query($insertSql)) {
         // Move files to the 'about_images' directory
@@ -130,6 +133,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="position-relative form-group">
                         <label for="heading" class="" style="font-weight:bold; color:black;">Email ID</label>
                         <input name="head3" id="" placeholder="Enter the Name" type="text" class="form-control">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="heading" class="" style="font-weight:bold; color:black;">Linkedin</label>
+                        <input name="link" id="" placeholder="Enter the linkedin full url" type="text" class="form-control">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="heading" class="" style="font-weight:bold; color:black;">YouTube</label>
+                        <input name="you" id="" placeholder="Enter the youtube full url" type="text" class="form-control">
+                    </div>
+                    <div class="position-relative form-group">
+                        <label for="heading" class="" style="font-weight:bold; color:black;">WhatsApp - Use Number Only</label>
+                        <input name="wp" id="" placeholder="Enter the Number only" type="text" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                 </form>

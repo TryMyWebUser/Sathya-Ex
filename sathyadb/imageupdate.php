@@ -19,6 +19,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         // Get form data
         $name = $_POST['name'];
         $display = $_POST['display'];
+        $dec = $_POST['dec'];
         
         // Check if a new image file is uploaded
         if(isset($_FILES['logo2']) && $_FILES['logo2']['error'] === UPLOAD_ERR_OK) {
@@ -35,7 +36,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             // Move uploaded file to the target directory
             if(move_uploaded_file($fname2, $targetDir . $newfname2)) {
                 // Update product data in the database with new image
-                $updateSql = "UPDATE images SET image = '$newfname2', name = '$name', position = '$display' WHERE i_id = '$imageid'";
+                $updateSql = "UPDATE images SET image = '$newfname2', name = '$name', position = '$display', `dec` = '$dec' WHERE i_id = '$imageid'";
             } else {
                 // Error moving uploaded file
                 echo "<script>
@@ -51,7 +52,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         } else {
             // No new image file uploaded, update only name
-            $updateSql = "UPDATE images SET name = '$name', position = '$display' WHERE i_id = '$imageid'";
+            $updateSql = "UPDATE images SET name = '$name', position = '$display', `dec` = '$dec' WHERE i_id = '$imageid'";
         }
         
         // Execute update query
@@ -118,6 +119,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             $name =  $row['name'];
                             $position =  $row['position'];
                             $display = $row['position'];
+                            $desc = $row['dec'];
                         }
                         ?>
                     <h2 class="mb-4">Gallery Image</h2>
@@ -126,6 +128,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="productImage" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="productImage" name="name"
                                 value="<?php echo $name; ?>">
+                        </div>
+                        <div class="position-relative form-group">
+                            <label for="productImage" class="form-label" style="color: black; font-weight:bold">Product
+                            Description</label>
+                            <textarea class="form-control" id="editor" name="dec" rows="5" col="5"><?= $desc ?></textarea>
                         </div>
                         <div class="position-relative form-group">
                             <label for="productImage" class="form-label">Product Image</label>

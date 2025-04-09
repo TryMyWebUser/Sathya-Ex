@@ -62,7 +62,7 @@ if ($result->num_rows > 0) {
                             <i class="renova-group"></i>
                         </div>
                         <div class="counter__content-three">
-                            <p> <?php echo $row['cat_name']?></p>
+                            <a href="subindustry.php?sub=<?php echo $row['cat_name']?>" style="color: #000;"><b><?php echo $row['cat_name']?></b></a>
                         </div>
                     </div>
                 </div>

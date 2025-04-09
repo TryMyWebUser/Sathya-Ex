@@ -19,6 +19,33 @@
     <script src="ckeditor/ckeditor.js"></script>
 
     <title>Sathya Groups</title>
+
+    <style>
+        /* For WebKit browsers (Chrome, Safari, Edge) */
+        .table-responsive::-webkit-scrollbar {
+            height: 10px; /* Height of horizontal scrollbar */
+        }
+
+        .table-responsive::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Color of the track */
+            border-radius: 10px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scroll thumb */
+            border-radius: 10px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Color when hovered */
+        }
+
+        /* For Firefox */
+        .table-responsive {
+            scrollbar-width: thin; /* "auto" or "thin" */
+            scrollbar-color: #888 #f1f1f1; /* thumb and track color */
+        }
+    </style>
 </head>
 
 <body>
